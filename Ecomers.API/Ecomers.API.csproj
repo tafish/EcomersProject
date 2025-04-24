@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Ecomers.Infrastratiar\Ecomers.Infrastratiar.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
