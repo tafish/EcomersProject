@@ -2,6 +2,7 @@
 using Ecom.Cor.Interfis;
 using Ecom.Infrastratiar.Data;
 using Ecomers.Cor.Service;
+using Ecomers.Infrastratiar.Riposatre.serves;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,18 +20,15 @@ namespace Ecom.Infrastratiar.Riposatre
         public static IServiceCollection infrastructureConfigration(this IServiceCollection Services, IConfiguration configuration)
         {
             Services.AddScoped(typeof(IGenericRepositry<>), typeof(GenericRepositry<>));
-            Services.AddSingleton<IImagemanagenentService, IImagemanagenentService>();
-            Services.AddSingleton<IFileProvider, IFileProvider>();
-            // Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddSingleton<IImagemanagenentService,ImagemanagenentService>();
+            Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(),"wwwroot")));
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddDbContext<AppDbContext>(op =>
             {
                 op.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
             });
-
-
-
-
 
             return Services;
         }
