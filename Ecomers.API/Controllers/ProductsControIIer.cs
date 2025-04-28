@@ -22,6 +22,7 @@ namespace Ecomers.API.Controllers
                 var prodect = await work.productRepositry
                     .GatAllAsinc(p => p.Catagory, p => p.Photos);
                 var result = mapper.Map<List<ProductDTO>>(prodect);
+
                 if (prodect == null)
                     return BadRequest(new ResponseAPI(400));
                 return Ok(result);
@@ -59,7 +60,21 @@ namespace Ecomers.API.Controllers
             try
             {
                 await work.productRepositry.AddAsync(productDTO);
-                return Ok();
+                return Ok(new ResponseAPI(200));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ResponseAPI(400, ex.Message));
+            }
+        }
+        [HttpPut("Updet-prodact")]
+        public async Task<IActionResult> Updet(UpdetProductDTO updetProductDTO) 
+        {
+            try
+            {
+                await work.productRepositry.UpdetAsync(updetProductDTO);
+                return Ok(new ResponseAPI(200));
             }
             catch (Exception ex)
             {

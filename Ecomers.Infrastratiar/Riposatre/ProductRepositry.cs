@@ -4,6 +4,8 @@ using Ecom.Cor.Interfis;
 using Ecom.Infrastratiar.Data;
 using Ecomers.Cor.DTO;
 using Ecomers.Cor.Service;
+using Microsoft.EntityFrameworkCore;
+
 
 
 
@@ -43,6 +45,40 @@ namespace Ecom.Infrastratiar.Riposatre
             }).ToList();
 
             await context.Photos.AddRangeAsync(Photo);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdetAsync(UpdetProductDTO updetProductDTO)
+        {
+            if (updetProductDTO is null)
+            {
+                return false;
+            }
+            var FinProduct = await context.Products.Include(c => c.Catagory)
+                .Include(p=>p.Photos)
+                .FirstOrDefaultAsync(m=>m.Id==updetProductDTO.Id);
+            if (FinProduct is null)
+            {
+                return false;
+            }
+            mapper.Map<UpdetProductDTO>(FinProduct);
+            var FindPhoto = await context.Photos
+                .Where(p=>p.ProductId==updetProductDTO.Id).ToListAsync();
+            foreach (var item in FindPhoto)
+            {
+                imagemanagenentService.DeletImegaAsinc(item.IimegName);
+
+            }
+            context.Photos.RemoveRange(FindPhoto);
+            var ImegePath = await imagemanagenentService.AddImageAsync(updetProductDTO.Photo,updetProductDTO.Name);
+            var photo = ImegePath.Select(Path => new Photo
+            {
+                IimegName = Path,
+                ProductId = updetProductDTO.Id,
+            }).ToList();
+
+            await context.Photos.AddRangeAsync(photo);
             await context.SaveChangesAsync();
             return true;
         }

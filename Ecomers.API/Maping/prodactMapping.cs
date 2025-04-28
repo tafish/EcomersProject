@@ -14,6 +14,9 @@ namespace Ecomers.API.Maping
             CreateMap<AddProductDTO, Product>()
                 .ForMember(m => m.Photos, op => op.Ignore())
                 .ReverseMap();
+            CreateMap<UpdetProductDTO, Product>()
+                .ForMember(m => m.Photos, op => op.Ignore())
+                .ReverseMap();
         }
     }
 }
