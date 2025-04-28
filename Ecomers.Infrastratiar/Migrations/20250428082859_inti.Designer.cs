@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecomers.Infrastratiar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250422092842_s")]
-    partial class s
+    [Migration("20250428082859_inti")]
+    partial class inti
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,14 +44,6 @@ namespace Ecomers.Infrastratiar.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Catagories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "test",
-                            Name = "test"
-                        });
                 });
 
             modelBuilder.Entity("Ecom.Cor.Entites.Product.Photo", b =>
@@ -95,51 +87,37 @@ namespace Ecomers.Infrastratiar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("NewPrice")
                         .HasColumnType("decimal(18.2)");
+
+                    b.Property<decimal>("OldPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CatagoryId");
 
-                    b.ToTable("Predicates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CatagoryId = 1,
-                            Description = "test",
-                            Name = "test",
-                            Price = 12m
-                        });
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Ecom.Cor.Entites.Product.Photo", b =>
                 {
-                    b.HasOne("Ecom.Cor.Entites.Product.Product", "Product")
+                    b.HasOne("Ecom.Cor.Entites.Product.Product", null)
                         .WithMany("Photos")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ecom.Cor.Entites.Product.Product", b =>
                 {
                     b.HasOne("Ecom.Cor.Entites.Product.Catagory", "Catagory")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CatagoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Catagory");
-                });
-
-            modelBuilder.Entity("Ecom.Cor.Entites.Product.Catagory", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Ecom.Cor.Entites.Product.Product", b =>

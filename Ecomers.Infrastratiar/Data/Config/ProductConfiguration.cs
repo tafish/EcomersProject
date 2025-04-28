@@ -15,11 +15,10 @@ namespace Ecom.Infrastratiar.Data.Config
         {
             builder.Property(p => p.Name).IsRequired();
             builder.Property(p => p.Description).IsRequired();
-            builder.Property(p => p.Price).HasColumnType("decimal(18.2)");
+            builder.Property(p => p.NewPrice).HasColumnType("decimal(18.2)");
             builder.HasData(
-
-                new Product {Id = 1 ,Name="test",CatagoryId=1,Description="test",Price=12 } 
-                );
+            new Product { Id =1, Name = "test2", CatagoryId = 1, Description = "test2", NewPrice = 300 }
+             );
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Ecom.Cor.Entites.Product;
+using Ecomers.Cor.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Ecom.Cor.Interfis
     public interface IProductRepositry : IGenericRepositry<Product>
     {
 
+        Task<bool> AddAsync(AddProductDTO productDTO);
     }
 }

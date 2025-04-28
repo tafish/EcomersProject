@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecomers.API.Controllers
 {
-   
+
     public class CategoriesController : BaseController
     {
         public CategoriesController(IUnitOfWork work, IMapper mapper) : base(work, mapper)
@@ -16,7 +16,7 @@ namespace Ecomers.API.Controllers
         }
 
         [HttpGet("gey-all")]
-        public async Task<IActionResult> Get() 
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -24,7 +24,7 @@ namespace Ecomers.API.Controllers
                 if (catogory is null)
                     return BadRequest(new ResponseAPI(400));
                 return Ok(catogory);
-                
+
             }
             catch (Exception ex)
             {
@@ -32,16 +32,16 @@ namespace Ecomers.API.Controllers
                 return BadRequest(ex.Message);
 
             }
-           
+
         }
         [HttpGet("get-by-Id/{Id}")]
-        public async Task<IActionResult> GetById(int Id) 
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
                 var catogry = await work.categoryRepositrycs.GetBayIdAsinc(Id);
                 if (catogry is null)
-                    return BadRequest(new ResponseAPI(400 ,$"not fond Catagory Id{Id}"));
+                    return BadRequest(new ResponseAPI(400, $"not fond Catagory Id{Id}"));
                 return Ok(catogry);
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace Ecomers.API.Controllers
 
         }
         [HttpPut("add-Category")]
-        public async Task<IActionResult> Add(CatagoryDTO catagoryDTO) 
+        public async Task<IActionResult> Add(CatagoryDTO catagoryDTO)
         {
             try
             {
@@ -67,14 +67,14 @@ namespace Ecomers.API.Controllers
             }
         }
         [HttpPost("Updet-Catagory")]
-        public async Task<IActionResult> UpdetCatagory(UpdetCatagoryDTO catagoryDTO) 
+        public async Task<IActionResult> UpdetCatagory(UpdetCatagoryDTO catagoryDTO)
         {
             try
             {
                 var catagory = mapper.Map<Catagory>(catagoryDTO);
                 await work.categoryRepositrycs.UpdateAsinc(catagory);
-               return Ok(new ResponseAPI(400, "Item Hase Ben Updeted"));
-                
+                return Ok(new ResponseAPI(400, "Item Hase Ben Updeted"));
+
 
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace Ecomers.API.Controllers
             {
                 await work.categoryRepositrycs.DeleteAsinc(Id);
                 return Ok(new ResponseAPI(200, "Item Hase Ben Dleted"));
-                }
+            }
             catch (Exception ex)
             {
 

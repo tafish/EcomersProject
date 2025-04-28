@@ -13,7 +13,8 @@ namespace Ecom.Cor.Entites.Product
 
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal NewPrice { get; set; }
+        public decimal OldPrice { get; set; }
         public virtual List<Photo> Photos { get; init; }
         public int CatagoryId { get; set; }
 

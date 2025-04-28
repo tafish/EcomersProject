@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ecomers.Cor.DTO
 {
-    public record CatagoryDTO
-    (string Name, string Description);
-    public record UpdetCatagoryDTO(string Name, string Description, int Id);
+    public record PhotoDTO
+    {
+        public string IimegName { get; init; }
+        public int ProductId { get; set; }
+    }
 }

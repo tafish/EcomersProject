@@ -17,7 +17,7 @@ namespace Ecom.Infrastratiar.Data.Config
             builder.Property( c => c.Name).IsRequired().HasMaxLength(30);
             builder.Property( c => c.Id).IsRequired();
             builder.HasData(
-               new Catagory {Id = 1, Name="test" ,Description="test",}
+               new Catagory { Id = 1, Name = "test", Description = "test", }
                 );
         }
     }

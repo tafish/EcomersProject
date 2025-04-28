@@ -8,8 +8,8 @@ namespace Ecomers.API.Maping
     {
         public Catagorymapping()
         {
-            CreateMap<CatagoryDTO ,Catagory>().ReverseMap();
-            CreateMap<UpdetCatagoryDTO ,Catagory>().ReverseMap();
+            CreateMap<CatagoryDTO, Catagory>().ReverseMap();
+            CreateMap<UpdetCatagoryDTO, Catagory>().ReverseMap();
         }
     }
 }

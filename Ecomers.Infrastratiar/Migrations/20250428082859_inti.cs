@@ -25,21 +25,22 @@ namespace Ecomers.Infrastratiar.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Predicates",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    NewPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CatagoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Predicates", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Predicates_Catagories_CatagoryId",
+                        name: "FK_Products_Catagories_CatagoryId",
                         column: x => x.CatagoryId,
                         principalTable: "Catagories",
                         principalColumn: "Id",
@@ -59,9 +60,9 @@ namespace Ecomers.Infrastratiar.Migrations
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_Predicates_ProductId",
+                        name: "FK_Photos_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Predicates",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -72,8 +73,8 @@ namespace Ecomers.Infrastratiar.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Predicates_CatagoryId",
-                table: "Predicates",
+                name: "IX_Products_CatagoryId",
+                table: "Products",
                 column: "CatagoryId");
         }
 
@@ -84,7 +85,7 @@ namespace Ecomers.Infrastratiar.Migrations
                 name: "Photos");
 
             migrationBuilder.DropTable(
-                name: "Predicates");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Catagories");

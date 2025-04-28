@@ -11,12 +11,12 @@ namespace Ecom.Infrastratiar.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
-        {  
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
         }
 
         public virtual DbSet<Catagory> Catagories { get; set; }
-        public virtual DbSet<Product> Predicates { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,5 +26,6 @@ namespace Ecom.Infrastratiar.Data
         }
     }
 
-   
+
+
 }
