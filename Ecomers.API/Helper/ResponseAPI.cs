@@ -18,6 +18,7 @@ namespace Ecomers.API.Helper
             {
                 200 => "Done",
                 400 => "Bad Request",
+                404 => "not fawend resorses",
                 401 => "Un Author",
                 500 => "server Eror",
                 _ => null!

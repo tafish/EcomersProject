@@ -49,6 +49,18 @@ namespace Ecom.Infrastratiar.Riposatre
             return true;
         }
 
+        public async Task DelettAsync(Product product)
+        {
+            var photo= await context.Photos.Where(p=>p.ProductId == product.Id)
+                .ToListAsync();
+            foreach (var item in photo)
+            {
+                imagemanagenentService.DeletImegaAsinc(item.IimegName);
+            }
+            context.Products.Remove(product);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<bool> UpdetAsync(UpdetProductDTO updetProductDTO)
         {
             if (updetProductDTO is null)

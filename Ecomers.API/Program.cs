@@ -1,5 +1,6 @@
 
 using Ecom.Infrastratiar.Riposatre;
+using Ecomers.API.Middleware;
 
 namespace Ecomers.API
 {
@@ -10,7 +11,7 @@ namespace Ecomers.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +26,8 @@ namespace Ecomers.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionsMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 

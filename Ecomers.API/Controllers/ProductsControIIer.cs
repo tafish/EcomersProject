@@ -82,5 +82,21 @@ namespace Ecomers.API.Controllers
                 return BadRequest(new ResponseAPI(400, ex.Message));
             }
         }
+        [HttpDelete("Delete-prodact/{Id}")]
+        public async Task<IActionResult> Delete(int Id) 
+        {
+            try
+            {
+                var prodact = await work.productRepositry
+                    .GetBayIdAsinc(Id, p => p.Catagory, p => p.Photos);
+                  await work.productRepositry.DeleteAsinc(Id);
+                return Ok(new ResponseAPI(200));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ResponseAPI(400, ex.Message));
+            }
+        }
     }
 }

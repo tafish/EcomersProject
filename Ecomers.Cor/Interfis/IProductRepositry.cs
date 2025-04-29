@@ -13,5 +13,6 @@ namespace Ecom.Cor.Interfis
 
         Task<bool> AddAsync(AddProductDTO productDTO);
         Task<bool> UpdetAsync(UpdetProductDTO updetProductDTO);
+        Task DelettAsync(Product product);
     }
 }
