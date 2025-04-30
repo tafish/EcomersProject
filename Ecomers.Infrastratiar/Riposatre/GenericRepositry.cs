@@ -24,6 +24,9 @@ namespace Ecom.Infrastratiar.Riposatre
             await _Context.SaveChangesAsync();
         }
 
+        public async Task<int> CountAsinc()
+        => await _Context.Set<T>().CountAsync();
+
         public async Task DeleteAsinc(int Id)
         {
             var entity = await _Context.Set<T>().FindAsync(Id);
@@ -67,5 +70,7 @@ namespace Ecom.Infrastratiar.Riposatre
             _Context.Entry(entity).State = EntityState.Modified;
             await _Context.SaveChangesAsync();
         }
+       
+         
     }
 }

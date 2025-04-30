@@ -16,6 +16,7 @@ namespace Ecom.Cor.Interfis
         Task AddAsinc(T entity);
         Task UpdateAsinc(T entity);
         Task DeleteAsinc(int Id);
+        Task<int> CountAsinc();
 
     }
 }

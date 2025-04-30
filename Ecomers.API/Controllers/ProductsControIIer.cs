@@ -5,6 +5,7 @@ using Ecom.Cor.Interfis;
 using Ecom.Infrastratiar.Data.Config;
 using Ecomers.API.Helper;
 using Ecomers.Cor.DTO;
+using Ecomers.Cor.Sharing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +17,14 @@ namespace Ecomers.API.Controllers
         {
         }
         [HttpGet("Get-All")]
-        public async Task<IActionResult> Get(string? sor, int? CatagoryId, int pageSize, int pageNumber)
+        public async Task<IActionResult> Get([FromQuery]ProductParams productParams)
         {
             try
             {
                 var product = await work.productRepositry
-                    .GetAllAsync(sor, CatagoryId, pageSize, pageNumber);
-
-                return Ok(product);
+                    .GetAllAsync(productParams);
+                var totalCount = await work.productRepositry.CountAsinc();
+                return Ok(new Pagination<ProductDTO>(productParams.pageNumber, productParams.pageSize, totalCount, product));
             }
             catch (Exception ex)
             {

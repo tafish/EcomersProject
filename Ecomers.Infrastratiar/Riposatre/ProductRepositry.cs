@@ -4,6 +4,7 @@ using Ecom.Cor.Interfis;
 using Ecom.Infrastratiar.Data;
 using Ecomers.Cor.DTO;
 using Ecomers.Cor.Service;
+using Ecomers.Cor.Sharing;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -30,21 +31,37 @@ namespace Ecom.Infrastratiar.Riposatre
             this.imagemanagenentService = imagemanagenentService;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllAsync(string? sor, int? categoryId, int pageSize, int pageNumber )
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync(ProductParams productParams)
         {
             var query = context.Products
                 .Include(m => m.Catagory)
                 .Include(m => m.Photos)
                 .AsNoTracking();
 
-            if (categoryId.HasValue)
+            if (!string.IsNullOrEmpty(productParams.Search))
             {
-                query = query.Where(c => c.CatagoryId == categoryId);
-            }
+                var searchWord=productParams.Search.Split(' ');
+                query = query.Where(c => searchWord.All(wor =>
 
-            if (!string.IsNullOrEmpty(sor))
+                c.Name.ToLower().Contains(wor.ToLower())||
+                c.Description.ToLower().Contains(wor.ToLower())
+
+                ));
+
+            }
+                  //-----filter-----------------------------
+                //(query = query.Where(c => c.Name.ToLower()
+                //.Contains(productParams.Search.ToLower())||
+                //c.Description.ToLower().Contains(productParams.Search.ToLower()));)
+
+
+            if (productParams.CatagoryId.HasValue)
+                 query = query.Where(c => c.CatagoryId == productParams.CatagoryId);
+            
+
+            if (!string.IsNullOrEmpty(productParams.sor))
             {
-                query = sor switch
+                query = productParams.sor switch
                 {
                     "PriceAse" => query.OrderBy(m => m.NewPrice),
                     "PriceDese" => query.OrderByDescending(m => m.NewPrice),
@@ -55,14 +72,10 @@ namespace Ecom.Infrastratiar.Riposatre
             {
                 query = query.OrderBy(m => m.Name);
             }
-
-           
-            pageNumber = pageNumber > 0 ? pageNumber : 1;
-            pageSize = pageSize > 0 ? pageSize : 3;
-
+          
             query = query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize);
+                .Skip((productParams.pageNumber - 1) * productParams.pageSize)
+                .Take(productParams.pageSize);
 
             var products = await query.ToListAsync();
             var result = mapper.Map<List<ProductDTO>>(products);
