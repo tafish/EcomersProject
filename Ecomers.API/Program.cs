@@ -1,6 +1,7 @@
 
 using Ecom.Infrastratiar.Riposatre;
 using Ecomers.API.Middleware;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Ecomers.API
 {
@@ -9,6 +10,15 @@ namespace Ecomers.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddCors(op=>
+            {
+                op.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200");
+                });
+            });
+
 
             // Add services to the container.
             builder.Services.AddMemoryCache();
@@ -26,6 +36,7 @@ namespace Ecomers.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("CorsPolicy");
             app.UseMiddleware<ExceptionsMiddleware>();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
