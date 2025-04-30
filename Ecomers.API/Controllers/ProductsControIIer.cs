@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Ecom.Cor.Entites.Product;
 using Ecom.Cor.Interfis;
 using Ecom.Infrastratiar.Data.Config;
@@ -15,25 +16,21 @@ namespace Ecomers.API.Controllers
         {
         }
         [HttpGet("Get-All")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string? sor, int? CatagoryId, int pageSize, int pageNumber)
         {
             try
             {
-                var prodect = await work.productRepositry
-                    .GatAllAsinc(p => p.Catagory, p => p.Photos);
-                var result = mapper.Map<List<ProductDTO>>(prodect);
+                var product = await work.productRepositry
+                    .GetAllAsync(sor, CatagoryId, pageSize, pageNumber);
 
-                if (prodect == null)
-                    return BadRequest(new ResponseAPI(400));
-                return Ok(result);
-
+                return Ok(product);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("Get-by-Id/{Id}")]
         public async Task<IActionResult> GetById(int Id)
         {

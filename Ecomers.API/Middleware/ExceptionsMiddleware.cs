@@ -23,6 +23,8 @@ namespace Ecomers.API.Middleware
         {
             try
             {
+                ApplySecurity(context);
+
                 if (IsRequestAlled(context)==false)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
@@ -71,6 +73,16 @@ namespace Ecomers.API.Middleware
                 memoryCache.Set(cachKey, (TimeTemp, count ), _retTimeWendo);
             }
             return true;
+        }
+
+        private void ApplySecurity(HttpContext context) 
+        {
+            context.Response.Headers["X-Content-typ-Options"] = "nosniff";
+            context.Response.Headers["X-XSS-Protection"] = "1;mode=block";
+            context.Response.Headers["X-Frame-Options"] = "DENY";
+
+
+
         }
     }
 }

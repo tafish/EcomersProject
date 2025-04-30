@@ -9,7 +9,7 @@ namespace Ecom.Cor.Interfis
 {
     public interface IGenericRepositry<T> where T : class
     {
-        Task<IReadOnlyList<T>> GatAllAsinc();
+       
         Task<IReadOnlyList<T>> GatAllAsinc(params Expression<Func<T, object>>[] includes);
         Task<T> GetBayIdAsinc(int Id);
         Task<T> GetBayIdAsinc(int Id, params Expression<Func<T, object>>[] includes);

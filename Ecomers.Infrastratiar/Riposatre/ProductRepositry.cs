@@ -30,6 +30,46 @@ namespace Ecom.Infrastratiar.Riposatre
             this.imagemanagenentService = imagemanagenentService;
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync(string? sor, int? categoryId, int pageSize, int pageNumber )
+        {
+            var query = context.Products
+                .Include(m => m.Catagory)
+                .Include(m => m.Photos)
+                .AsNoTracking();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(c => c.CatagoryId == categoryId);
+            }
+
+            if (!string.IsNullOrEmpty(sor))
+            {
+                query = sor switch
+                {
+                    "PriceAse" => query.OrderBy(m => m.NewPrice),
+                    "PriceDese" => query.OrderByDescending(m => m.NewPrice),
+                    _ => query.OrderBy(m => m.Name),
+                };
+            }
+            else
+            {
+                query = query.OrderBy(m => m.Name);
+            }
+
+           
+            pageNumber = pageNumber > 0 ? pageNumber : 1;
+            pageSize = pageSize > 0 ? pageSize : 3;
+
+            query = query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            var products = await query.ToListAsync();
+            var result = mapper.Map<List<ProductDTO>>(products);
+
+            return result;
+        }
+
         public async Task<bool> AddAsync(AddProductDTO productDTO)
         {
             if (productDTO == null) return false;
@@ -48,6 +88,8 @@ namespace Ecom.Infrastratiar.Riposatre
             await context.SaveChangesAsync();
             return true;
         }
+
+
 
         public async Task DelettAsync(Product product)
         {
